@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="공인중개사 1차" />
-  <title>공인중개사 1차 기출학습</title>
+  <title>공인중개사 1차 기출학습 & 단권 기본서</title>
   <style>
     :root {
       --bg: #f5f6f8;
@@ -46,8 +46,8 @@
       font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Malgun Gothic", sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.62;
-      padding-bottom: 72px;
+      line-height: 1.65;
+      padding-bottom: 76px;
     }
     header {
       position: sticky;
@@ -58,7 +58,7 @@
       padding: 10px 14px;
     }
     .header-inner {
-      max-width: 760px;
+      max-width: 780px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
@@ -69,6 +69,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
+      flex-wrap: wrap;
     }
     .app-title {
       font-size: 16px;
@@ -96,7 +97,7 @@
     .mode-tabs {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 6px;
+      gap: 5px;
       background: var(--bg);
       padding: 4px;
       border-radius: 12px;
@@ -143,7 +144,7 @@
     [data-theme="dark"] .chip.active { color: #0f172a; }
     .session-drawer {
       display: none;
-      max-width: 760px;
+      max-width: 780px;
       max-height: 185px;
       overflow-y: auto;
       margin: 6px auto 0;
@@ -175,7 +176,7 @@
       color: var(--primary);
     }
     main {
-      max-width: 760px;
+      max-width: 780px;
       margin: 12px auto;
       padding: 0 12px;
       display: flex;
@@ -318,42 +319,95 @@
       white-space: pre-line;
       word-break: keep-all;
     }
-    .tb-unit-title {
+    .tb-subj-switcher {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .tb-subj-btn {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .tb-subj-btn.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #fff;
+    }
+    [data-theme="dark"] .tb-subj-btn.active { color: #0f172a; }
+    .tb-chapter-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .tb-chapter-title {
+      margin: 0;
       font-size: 16px;
       font-weight: 800;
       color: var(--primary);
-      margin: 0 0 6px;
     }
-    .tb-summary {
+    .tb-chapter-summary {
+      margin: 0;
       font-size: 13.5px;
       color: var(--sub);
-      margin: 0 0 12px;
     }
-    .tb-point {
-      border-top: 1px dashed var(--border);
-      padding-top: 12px;
-      margin-top: 12px;
-    }
-    .tb-point-title {
-      font-size: 14.5px;
-      font-weight: 800;
-      margin-bottom: 8px;
-    }
-    .tb-list {
-      margin: 4px 0 8px 0;
-      padding-left: 18px;
-      font-size: 13.5px;
-    }
-    .tb-list li { margin-bottom: 4px; }
-    .tb-tag-ok { color: var(--ok); font-weight: 700; }
-    .tb-tag-fix { color: var(--err); font-weight: 700; }
-    .tb-rel {
+    .tb-cluster {
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 10px;
-      font-size: 12.5px;
-      color: var(--sub);
+      border-radius: 12px;
+      padding: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tb-cluster-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+    }
+    .tb-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .tb-tag {
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+    .tb-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13.8px;
+      word-break: keep-all;
+    }
+    .tb-item-type {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 6px;
+      margin-bottom: 5px;
+      background: var(--ok-bg);
+      color: var(--ok);
+    }
+    .tb-item-type.note {
+      background: var(--warn-bg);
+      color: var(--warn);
     }
     .single-nav {
       display: flex;
@@ -452,17 +506,17 @@
         <button class="mode-tab" data-mode="textbook">기본서</button>
       </div>
 
-      <div class="filter-row">
-        <button class="chip active" data-subj="all">전체</button>
-        <button class="chip" data-subj="intro">부동산학개론</button>
-        <button class="chip" data-subj="civil">민법 및 민사특별법</button>
+      <div class="filter-row" id="examFilterRow">
+        <button class="chip active" data-subj="all">전체 (80)</button>
+        <button class="chip" data-subj="intro">부동산학개론 (1~40)</button>
+        <button class="chip" data-subj="civil">민법 및 민사특별법 (41~80)</button>
         <button class="chip" id="resetProgressBtn">풀이초기화</button>
       </div>
     </div>
   </header>
 
   <main id="appMain">
-    <div class="empty-state">기출문제 데이터를 불러오는 중입니다...</div>
+    <div class="empty-state">기출문제 및 기본서 데이터를 불러오는 중입니다...</div>
   </main>
 
   <div class="jump-modal" id="jumpModal">
@@ -476,7 +530,6 @@
   </div>
 
   <script>
-    // ★ 새 회차 JS 파일을 추가할 때는 아래 배열에 파일명만 추가하세요.
     const SESSION_FILES = [
       "session36.js",
       "session35.js",
@@ -494,6 +547,171 @@
 
     window.SESSIONS = window.SESSIONS || [];
     window.TEXTBOOKS = window.TEXTBOOKS || [];
+
+    // 기본서 내장 데이터 (외부 파일이 없거나 로드 실패해도 기본서 탭이 바로 뜨도록 보장)
+    window.TEXTBOOKS.push({
+      id: "builtin-textbook",
+      title: "공인중개사 1차 단권 기본서 (학개론·민법)",
+      subjects: [
+        {
+          id: "intro",
+          name: "1과목 · 부동산학개론",
+          chapters: [
+            {
+              id: "intro-1",
+              title: "PART 1. 부동산학 총론 & 토지용어 클러스터",
+              summary: "부동산학의 성격·접근방법·활동 원리, 복합개념·준부동산·정착물·유량/저량, 획지·부지·필지·택지·맹지·공지·나지·건부지·일단지·선하지 및 후보지·이행지·빈지·포락지·법지·소지와 자연적·인문적 특성을 정리합니다.",
+              clusters: [
+                {
+                  topic: "클러스터 ① : 획지·부지·필지·택지·맹지·공지·나지·건부지·일단지·선하지",
+                  related: ["획지", "부지", "필지", "택지", "맹지", "공지", "나지", "건부지", "일단지", "선하지"],
+                  items: [
+                    { type: "틀린 지문 정정", text: "나지(裸地)는 토지 위에 건물이나 그 밖의 정착물이 없고 지상권 등 토지의 사용·수익을 제한하는 사법상의 권리가 설정되어 있지 아니한 토지를 말한다. 건부지(建附地) 중 건축법상 건폐율·용적률 등의 제한으로 건물을 짓지 않고 비워 둔 토지는 '공지(空地)'이며, 건부지가격은 건부감가에 의해 나지가격보다 낮게 평가되는 것이 일반적이다." },
+                    { type: "기출 옳은 지문", text: "필지(筆地)는 하나의 지번이 부여되는 토지등록의 단위이고, 획지(劃地)는 인위적·자연적·행정적 조건에 따라 다른 토지와 구별되는 가격수준이 비슷한 일단의 토지이다. 용도상 불가분의 관계에 있는 2필지 이상의 토지는 '일단지(一團地)'이고, 도로에 직접 연결되지 못한 한 필지의 토지는 '맹지(盲地)'이다." },
+                    { type: "연관 개념·실전 보충", text: "부지(敷地)는 건축물이나 하천·도로·철도·공원 등의 바닥토지를 지칭하는 포괄적 용어이며, 택지(宅地)는 주거·상업·공업용지로 이용되고 있거나 조성된 토지이다. 고압송전선로 아래 토지는 '선하지(線下地)'이며, 초과토지는 현존 건물에 필요한 적정면적 이상 토지 중 분리 사용이 가능한 부분을 말한다." }
+                  ]
+                },
+                {
+                  topic: "클러스터 ② : 후보지·이행지·빈지·포락지·법지·소지 및 자연적·인문적 특성",
+                  related: ["후보지", "이행지", "빈지", "포락지", "법지", "소지", "부증성", "부동성", "개별성", "영속성"],
+                  items: [
+                    { type: "기출 옳은 지문", text: "후보지(候補地)는 택지·농지·산지(임지)지역 상호 간에 다른 지역으로 전환되고 있는 일단의 토지이고, 이행지(移行地)는 세부 용도지역 상호 간에 용도가 전환되고 있는 일단의 토지이다." },
+                    { type: "틀린 지문 정정", text: "소유권이 인정되지 않는 바다와 육지 사이의 해변 토지는 '빈지(濱地)'이고, 지적공부에 등록된 토지가 침식되어 수면 밑으로 잠긴 토지는 '포락지(浦落地)'이다. 소유권은 인정되나 이용실익이 적거나 불가능한 경사지 등은 '법지(法地)', 개발 전 자연 상태 토지는 '소지(素地)'이다." },
+                    { type: "틀린 지문 정정", text: "부증성으로 물리적 공급이 불가하므로 토지이용 집약화·지가/지대 발생·소유욕구 증대·입지경쟁이 나타난다. 부동성은 국지성·임장활동·외부효과 근거가 되고, 개별성은 일물일가 배제·개별요인 비교 근거가 되며, 영속성은 물리적 감가상각 배제·장기투자 근거가 된다. 용도의 다양성은 최유효이용과 경제적 공급의 근거이다." }
+                  ]
+                }
+              ]
+            },
+            {
+              id: "intro-2",
+              title: "PART 2~4. 수요·공급·탄력성·경기·거미집 & 시장·입지·정책·조세",
+              summary: "수요량 변화와 수요 변화, 가격·소득·교차탄력성과 조세귀착·순손실, 균형 이동, 거미집모형, 경기변동, 효율적 시장, 주택여과, 지대·입지·공간구조이론 및 정책·조세를 정리합니다.",
+              clusters: [
+                {
+                  topic: "클러스터 ③ : 수요·공급 변화, 탄력성, 균형 및 거미집모형",
+                  related: ["수요량 vs 수요", "가격·소득·교차탄력성", "조세귀착·순손실", "수렴형·발산형·순환형"],
+                  items: [
+                    { type: "틀린 지문 정정", text: "해당 부동산 가격 변화는 '수요량·공급량의 변화'(동일 곡선상 이동)이고, 소득·금리·대체재/보완재 가격·인구·거래세 등 가격 외 요인 변화는 '수요·공급의 변화'(곡선 자체 이동)이다. 시장수요곡선은 개별수요곡선을 수평 합산한다." },
+                    { type: "틀린 지문 정정", text: "수요의 가격탄력성이 1이면 임대료 변동 시 총임대료 수입이 불변이고, 비탄력적(1 미만)이면 임대료 상승 시 총수입이 증가하며, 탄력적(1 초과)이면 임대료 상승 시 총수입이 감소한다. 조세 부과 시 탄력성이 작은 쪽이 세금을 더 많이 부담하며, 거래세 인상은 경제적 순손실을 발생시킨다." },
+                    { type: "틀린 지문 정정", text: "거미집모형에서 수요의 가격탄력성 절댓값이 공급의 가격탄력성 절댓값보다 크면(가격축 기준 수요 기울기 절댓값 < 공급 기울기 절댓값이면) '수렴형', 작으면 '발산형', 같으면 '순환형'이다." }
+                  ]
+                },
+                {
+                  topic: "클러스터 ④ : 시장효율성·여과과정·지대·입지·공간구조 및 정책·조세",
+                  related: ["약성·준강성·강성", "하향·상향여과", "차액·절대·준지대·입찰지대", "레일리·컨버스·허프·베버", "직접·간접개입"],
+                  items: [
+                    { type: "틀린 지문 정정", text: "불완전경쟁시장이라도 할당효율적 시장이 될 수 있다. 약성 효율적 시장은 과거 정보로 초과이윤 불가, 준강성은 과거+공표 정보로 초과이윤 불가, 강성은 미공표 정보까지 반영된다. 하향여과는 고·중소득층 주택이 노후화되며 저소득층으로 넘어가는 과정이고, 수선·재개발로 상위계층이 쓰는 것은 상향여과이다." },
+                    { type: "틀린 지문 정정", text: "리카도 차액지대는 비옥도 차이·한계지 무지대(지대는 잉여), 마르크스 절대지대는 사적 토지소유 독점으로 최열등지에서도 지대 발생, 튀넨 위치지대는 수송비, 마샬 준지대는 단기 고정생산요소 소득, 알론소 입찰지대는 도심 거리에 따른 지대지불의사를 다룬다. 레일리(소매인력), 컨버스(분기점), 허프(확률 모형), 크리스탈러(중심지 계층·최소요구치·도달범위), 베버(최소비용·원료지수·등비용선)를 구분한다." },
+                    { type: "틀린 지문 정정", text: "직접개입에는 공공토지비축·공영개발·공공임대주택·토지수용이, 간접개입에는 조세·부담금·금융규제(LTV·DTI·DSR)가 있다. 취득세(지방세)·상속세/증여세(국세), 재산세(지방세)·종합부동산세(국세·6월 1일 과세기준일), 양도소득세(국세·동결효과)를 구분한다." }
+                  ]
+                }
+              ]
+            },
+            {
+              id: "intro-3",
+              title: "PART 5~8. 투자·금융·개발·관리·마케팅 및 감정평가·가격공시",
+              summary: "포트폴리오·화폐의 시간가치·NPV/IRR/PI·현금흐름/비율분석·상환방식, PF·MBS·REITs·주택연금·민간투자, 개발·관리·4P/STP, 감정평가 3방식·감가수정·가격원칙 및 가격공시제도를 정리합니다.",
+              clusters: [
+                {
+                  topic: "클러스터 ⑤ : 투자위험·6계수·NPV/IRR/PI·현금흐름·상환방식·금융·개발·관리",
+                  related: ["체계적·비체계적 위험", "연금현가·저당상수", "NPV·IRR·PI", "NOI·BTCF·ATCF", "MBB·MPTS·CMO", "BOT·BTO·BTL·BOO"],
+                  items: [
+                    { type: "틀린 지문 정정", text: "분산투자로 줄이는 위험은 비체계적 위험이며 체계적 위험은 제거되지 않는다. 연금의 현재가치계수와 저당상수는 역수관계이다. IRR은 NPV를 '0'(PI를 '1')으로 만드는 할인율이며, 단순회수기간법과 회계적이익률법은 화폐의 시간가치를 고려하지 않는다." },
+                    { type: "기출 옳은 지문", text: "PGI - 공실·불량부채 + 기타소득 = EGI, EGI - 영업경비 = NOI, NOI - 부채서비스액 = BTCF, BTCF - 영업소득세 = ATCF. (영업소득세와 부채서비스액은 영업경비가 아니다.) 원금균등상환은 초기 원리금이 크고 잔액이 빨리 줄어 조기상환 시 잔액이 적다." },
+                    { type: "틀린 지문 정정", text: "MBB는 채권형 증권으로 발행자가 초과담보 등 신용보강을 제공하고 채무불이행·조기상환 위험을 부담한다. BOT(준공 후 일정 기간 소유·운영 후 이전), BTO(준공과 동시에 소유권 이전 후 운영권 부여), BTL(준공과 동시에 소유권 이전 후 임대·사용료 지급), BOO(소유·운영 지속)를 구분한다." }
+                  ]
+                },
+                {
+                  topic: "클러스터 ⑥ : 감정평가 3방식·감가수정·가격원칙 및 가격공시제도",
+                  related: ["원가·비교·수익방식", "정액법·정률법·상환기금법", "균형·적합", "표준지·개별공시지가·표준주택"],
+                  items: [
+                    { type: "틀린 지문 정정", text: "감정평가 3방식은 원가방식(원가법·적산법), 비교방식(거래사례비교법·임대사례비교법·공시지가기준법), 수익방식(수익환원법·수익분석법)이다. 시산가액 조정은 자료 신뢰도·적정성을 고려해 합리적으로 조정하며 단순 산술평균만 하는 것이 아니다." },
+                    { type: "틀린 지문 정정", text: "균형의 원칙은 내부 구성요소 간 조화(기능적 감가), 적합의 원칙은 외부환경과의 조화(경제적 감가)를 다룬다. 지역분석이 개별분석에 선행하며, 표준적 이용·가격수준은 지역분석, 최유효이용은 개별분석에서 판정한다. 표준지 및 개별공시지가 이의신청 기간은 30일 이내이다." }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: "civil",
+          name: "2과목 · 민법 및 민사특별법",
+          chapters: [
+            {
+              id: "civil-1",
+              title: "제1편. 민법총칙 (권리변동·법률행위·의사표시·대리·무효/취소·조건/기한)",
+              summary: "권리변동과 해석, 반사회·불공정·비진의·통정허위표시·착오·사기강박, 도달주의, 대리·표현대리·무권대리·복대리, 취소권 기간·법정추인과 조건·기한 판례 핵심을 정리합니다.",
+              clusters: [
+                {
+                  topic: "클러스터 ① : 법률행위 목적(제103·104조)·의사표시·도달·취소/무효",
+                  related: ["제103조 반사회질서", "제104조 불공정행위", "제108조 통정허위", "제109조 착오", "제110조 사기강박", "취소권 3년/10년"],
+                  items: [
+                    { type: "틀린 지문 정정", text: "반사회질서(제103조)와 불공정행위(제104조)는 절대적 무효이므로 선의의 제3자에게도 대항할 수 있고, 무효행위 전환 법리가 적용된다. 불공정행위의 현저한 불균형은 객관적 가치로 판단하며, 대리 시 궁박은 본인 기준, 경솔·무경험은 대리인 기준으로 판단한다." },
+                    { type: "틀린 지문 정정", text: "통정허위표시에서 가장행위는 무효이나 은닉행위는 요건 구비 시 유효하며, 제3자는 선의이기만 하면 되고 무과실은 불필요하다. 착오는 중과실이 없는 때 취소할 수 있으나 상대방이 착오를 알고 이용한 경우 중과실이 있어도 취소할 수 있으며, 계약 해제 후에도 착오 취소가 가능하다." },
+                    { type: "틀린 지문 정정", text: "취소권은 추인할 수 있는 날로부터 3년, 행위일로부터 10년 내 행사한다. 제한능력자는 단독 취소 가능하고 법정대리인은 취소원인 종료 전에도 추인할 수 있으며, 법정추인에 취소권 존재 인식까지 요하지 않는다." }
+                  ]
+                },
+                {
+                  topic: "클러스터 ② : 대리·표현대리·무권대리·복대리 및 조건·기한",
+                  related: ["각자대리", "권한을 넘은 표현대리", "무권대리 추인·철회·상속", "복대리", "조건·기한"],
+                  items: [
+                    { type: "틀린 지문 정정", text: "대리인 사망·성년후견 개시는 대리권 소멸사유이나, 파산선고·한정후견 개시는 소멸사유가 아니다. 대리인이 여럿인 경우 각자대리가 원칙이고, 매매대리인은 특별한 사정이 없으면 중도금·잔금 수령 권한이 있다." },
+                    { type: "틀린 지문 정정", text: "무권대리에서 본인이 최고 기간 내 확답을 발하지 않으면 추인을 거절한 것으로 본다. 철회권은 선의의 상대방만 행사할 수 있고, 무권대리인이 본인을 단독상속한 경우 추인 거절은 신의칙에 반한다. 복대리인은 본인을 대리하며, 임의대리인은 승낙을 얻어 복대리인을 선임하더라도 선임·감독 책임을 진다." }
+                  ]
+                }
+              ]
+            },
+            {
+              id: "civil-2",
+              title: "제2편. 물권법 (물권변동·점유권·소유권·용익물권·담보물권)",
+              summary: "제186·187조 물권변동·물권적 청구권, 점유추정·점유취득시효, 공유·합유·총유·주위토지통행권·분묘기지권, 지상권·지역권·전세권 및 유치권·저당권·근저당권 판례 핵심을 정리합니다.",
+              clusters: [
+                {
+                  topic: "클러스터 ③ : 물권변동·물권적 청구권·점유권·취득시효·공동소유",
+                  related: ["제186·187조", "물권적 청구권", "점유추정", "점유취득시효", "공유·합유"],
+                  items: [
+                    { type: "틀린 지문 정정", text: "법률행위 물권변동은 등기해야 하나, 상속·공용징수·형성판결·경매(매각대금 완납)·건물 신축·법정지상권 등 법률 규정에 의한 취득은 등기를 요하지 않는다. (이행판결·공유물 현물분할 협의/조정은 등기 필요.) 점유자의 무과실은 추정되지 않으며, 본권 소송 패소 선의점유자는 소제기시부터 악의로 본다." },
+                    { type: "틀린 지문 정정", text: "취득시효 완성 후 등기 전 제3자 앞으로 이전등기가 마쳐지면 원칙적으로 제3자에게 대항할 수 없고, 점유 계속 중에는 이전등기청구권이 소멸시효에 걸리지 않는다. 공유물 관리행위는 지분 과반수로 결정하고, 합유지분 처분은 전원 동의가 필요하며 부동산 합유지분 포기는 등기해야 한다." }
+                  ]
+                },
+                {
+                  topic: "클러스터 ④ : 지상권·지역권·전세권 및 유치권·저당권·근저당권",
+                  related: ["법정지상권", "지역권", "전세권 법정갱신", "유치권", "저당권·근저당권"],
+                  items: [
+                    { type: "틀린 지문 정정", text: "2년 이상 지료 연체 시 지상권소멸청구가 가능하고, 법정지상권 배제 특약은 무효이다. 지역권은 요역지와 분리 양도할 수 없고, 요역지는 1필 전부여야 하나 승역지는 1필 일부라도 가능하며, 계속되고 표현된 지역권만 시효취득할 수 있다." },
+                    { type: "틀린 지문 정정", text: "건물전세권 법정갱신 시 등기 없이도 제3자에게 대항할 수 있고 존속기간은 정함이 없으며, 건물 일부 전세권자는 건물 전부에 대해 경매청구를 할 수 없다. 유치권에는 물상대위성이 없고 채무자 직접점유 간접점유만으로는 성립하지 않으며, 임차보증금·권리금반환청구권은 유치권 피담보채권이 아니다. 후순위권리자 경매 신청 시 선순위 근저당권 피담보채권은 매수인이 매각대금을 완납한 때 확정된다." }
+                  ]
+                }
+              ]
+            },
+            {
+              id: "civil-3",
+              title: "제3편. 계약법 & 제4편. 민사특별법 (주임법·상임법·집합건물법·가등기담보법·부동산실명법)",
+              summary: "청약/승낙·제3자를 위한 계약·동시이행·위험부담·해제/해지, 계약금·담보책임·교환·임대차(지상물/부속물매수청구권·전대차) 및 주임법·상임법·집합건물법·가등기담보법·부동산실명법 핵심을 정리합니다.",
+              clusters: [
+                {
+                  topic: "클러스터 ⑤ : 계약 성립·동시이행·위험부담·해제/해지·매매/담보책임/임대차",
+                  related: ["제3자를 위한 계약", "동시이행항변권", "위험부담(제537조)", "해약금 해제", "매도인 담보책임", "지상물·부속물매수청구권"],
+                  items: [
+                    { type: "틀린 지문 정정", text: "제3자를 위한 계약에서 수익자는 수익 의사표시 시 권리를 취득하고, 낙약자는 기본관계 항변으로 수익자에게 대항할 수 있으며, 해제권은 요약자에게 있다. 쌍방 귀책사유 없는 후발적 불능 시 채무자는 반대급부를 청구할 수 없고 이미 받은 대금·계약금은 부당이득으로 반환해야 한다(대상청구권 인정)." },
+                    { type: "틀린 지문 정정", text: "이행착수 전까지 매수인은 계약금 포기, 매도인은 배액 상환으로 해약금 해제를 할 수 있다. 매매비용은 특약이 없으면 쌍방 균분이며, 경매에는 물건의 하자로 인한 담보책임이 적용되지 않는다. 임차인 채무불이행으로 해지된 경우에는 지상물매수청구권이 인정되지 않는다." }
+                  ]
+                },
+                {
+                  topic: "클러스터 ⑥ : 주택·상가임대차보호법, 집합건물법, 가등기담보법 및 부동산실명법",
+                  related: ["주임법", "상임법", "집합건물법", "가등기담보법", "부동산실명법"],
+                  items: [
+                    { type: "틀린 지문 정정", text: "주택임대차 대항력은 인도와 주민등록을 마친 다음 날 발생하고, 묵시적 갱신 시 존속기간은 2년이며, 임차인은 언제든지 해지 통지할 수 있고 3개월 후 효력이 발생한다. 상가건물 임대차는 환산보증금을 초과하더라도 대항력·계약갱신요구권·권리금 회수기회 보호 등 주요 규정이 적용된다." },
+                    { type: "틀린 지문 정정", text: "집합건물 재건축 결의는 구분소유자 및 의결권의 각 5분의 4 이상 다수가 필요하다. 가등기담보권 실행 시 청산금 통지 및 청산기간 경과 후 청산금을 지급해야 본등기·소유권 취득 효력이 생긴다. 명의신탁약정과 물권변동은 원칙적으로 무효이나, 선의의 제3자는 소유권을 취득한다." }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]);
 
     (function registerPWA() {
       const manifest = {
@@ -530,9 +748,10 @@
 
     const state = {
       sessionId: "",
-      mode: "solve",       // solve | study | wrong | textbook
-      subj: "all",         // all | intro | civil
-      view: "scroll",      // scroll | single
+      mode: "solve",
+      subj: "all",
+      tbSubj: "intro",
+      view: "scroll",
       singleIdx: 0,
       answers: JSON.parse(localStorage.getItem("realtor_answers_v1") || "{}"),
       wrongs: JSON.parse(localStorage.getItem("realtor_wrongs_v1") || "{}"),
@@ -585,6 +804,8 @@
         btn.onclick = () => {
           state.sessionId = btn.dataset.sid;
           state.singleIdx = 0;
+          if (state.mode === "textbook") state.mode = "solve";
+          document.querySelectorAll(".mode-tab").forEach(t => t.classList.toggle("active", t.dataset.mode === state.mode));
           document.getElementById("sessionToggleBtn").textContent = `${getCurrentSession().title} ▾`;
           document.getElementById("sessionDrawer").classList.remove("open");
           render();
@@ -592,40 +813,74 @@
       });
     }
 
-    function renderTextbook() {
+    function getTextbookData() {
+      if (Array.isArray(window.TEXTBOOKS) && window.TEXTBOOKS.length > 0) {
+        return window.TEXTBOOKS[window.TEXTBOOKS.length - 1];
+      }
+      return null;
+    }
+
+    function renderTextbookView() {
       const main = document.getElementById("appMain");
-      const tb = window.TEXTBOOKS[0];
-      if (!tb) {
-        main.innerHTML = `<div class="empty-state">기본서 데이터(textbook01.js)를 불러오는 중입니다.</div>`;
+      const book = getTextbookData();
+      if (!book || !Array.isArray(book.subjects) || book.subjects.length === 0) {
+        main.innerHTML = `<div class="empty-state">기본서 데이터를 불러오지 못했습니다.</div>`;
         return;
       }
-      const chapters = tb.chapters.filter(ch => state.subj === "all" || ch.subj === state.subj);
+
+      const activeSubj = book.subjects.find(s => s.id === state.tbSubj) || book.subjects[0];
+
       let html = `
         <div class="status-bar">
-          <span><strong>${tb.title}</strong> · ${chapters.length}개 단원</span>
-          <span>기출 옳은 지문 + 틀린 지문 정정 + 연관 개념</span>
+          <span><strong>${book.title}</strong> · 과목별 분리</span>
+          <span>총 ${activeSubj.chapters.length}개 단원</span>
+        </div>
+        <div class="tb-subj-switcher">
+          ${book.subjects.map(s => `
+            <button class="tb-subj-btn ${s.id === activeSubj.id ? "active" : ""}" data-tbsubj="${s.id}">
+              ${s.name}
+            </button>
+          `).join("")}
         </div>
       `;
-      html += chapters.map(ch => `
-        <section class="q-card">
-          <div class="q-meta">
-            <span class="q-badge">${ch.subj === "intro" ? "1과목 부동산학개론" : "2과목 민법 및 민사특별법"}</span>
-          </div>
-          <h3 class="tb-unit-title">${ch.unit}</h3>
-          <p class="tb-summary">${ch.summary}</p>
-          ${ch.points.map(pt => `
-            <div class="tb-point">
-              <div class="tb-point-title">■ ${pt.title}</div>
-              <ul class="tb-list">
-                ${(pt.correct || []).map(c => `<li><span class="tb-tag-ok">[옳은 지문]</span> ${c}</li>`).join("")}
-                ${(pt.fixed || []).map(f => `<li><span class="tb-tag-fix">[정정 지문]</span> ${f}</li>`).join("")}
-              </ul>
-              ${pt.related ? `<div class="tb-rel"><strong>연관 개념·보충:</strong> ${pt.related}</div>` : ""}
+
+      for (const ch of activeSubj.chapters) {
+        html += `
+          <section class="tb-chapter-card">
+            <div>
+              <h2 class="tb-chapter-title">${ch.title}</h2>
+              <p class="tb-chapter-summary">${ch.summary}</p>
             </div>
-          `).join("")}
-        </section>
-      `).join("");
+            ${ch.clusters.map(cl => `
+              <div class="tb-cluster">
+                <div class="tb-cluster-title">${cl.topic}</div>
+                <div class="tb-tags">
+                  ${(cl.related || []).map(tag => `<span class="tb-tag">#${tag}</span>`).join("")}
+                </div>
+                ${cl.items.map(it => {
+                  const isNote = it.type.includes("보충") || it.type.includes("체크");
+                  return `
+                    <div class="tb-item">
+                      <span class="tb-item-type ${isNote ? "note" : ""}">${it.type}</span>
+                      <div>${it.text}</div>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            `).join("")}
+          </section>
+        `;
+      }
+
       main.innerHTML = html;
+
+      main.querySelectorAll(".tb-subj-btn").forEach(btn => {
+        btn.onclick = () => {
+          state.tbSubj = btn.dataset.tbsubj;
+          renderTextbookView();
+          window.scrollTo(0, 0);
+        };
+      });
     }
 
     function renderQuestionCard(item, sesId) {
@@ -683,21 +938,31 @@
 
     function render() {
       applyTheme();
-      const ses = getCurrentSession();
-      if (ses) {
-        document.getElementById("sessionToggleBtn").textContent = `${ses.title} ▾`;
-        updateWrongCount();
-        renderSessions();
-      }
+      const filterRow = document.getElementById("examFilterRow");
+      const jumpBtn = document.getElementById("jumpOpenBtn");
+      const viewBtn = document.getElementById("viewToggleBtn");
+
       if (state.mode === "textbook") {
-        renderTextbook();
+        filterRow.style.display = "none";
+        jumpBtn.style.display = "none";
+        viewBtn.style.display = "none";
+        renderTextbookView();
         return;
       }
+
+      filterRow.style.display = "flex";
+      jumpBtn.style.display = "inline-block";
+      viewBtn.style.display = "inline-block";
+
+      const ses = getCurrentSession();
       const main = document.getElementById("appMain");
       if (!ses) {
         main.innerHTML = `<div class="empty-state">등록된 회차 파일(예: session36.js)이 없습니다.</div>`;
         return;
       }
+      document.getElementById("sessionToggleBtn").textContent = `${ses.title} ▾`;
+      updateWrongCount();
+      renderSessions();
 
       const list = getFilteredQuestions();
       const solvedCnt = ses.questions.filter(q => state.answers[`${ses.id}-${q.no}`]).length;
@@ -775,6 +1040,7 @@
         state.mode = tab.dataset.mode;
         state.singleIdx = 0;
         render();
+        window.scrollTo(0, 0);
       };
     });
 
@@ -823,7 +1089,7 @@
           const no = Number(b.dataset.jno);
           document.getElementById("jumpModal").classList.remove("open");
           state.subj = "all";
-          if (state.mode === "wrong" || state.mode === "textbook") state.mode = "solve";
+          if (state.mode === "wrong") state.mode = "solve";
           document.querySelectorAll(".chip[data-subj]").forEach(c => c.classList.toggle("active", c.dataset.subj === "all"));
           document.querySelectorAll(".mode-tab").forEach(t => t.classList.toggle("active", t.dataset.mode === state.mode));
           if (state.view === "single") {
@@ -853,7 +1119,7 @@
       });
     }
 
-    (async function initSessions() {
+    (async function initApp() {
       for (const file of SESSION_FILES) {
         await loadScriptSequential(file);
       }
