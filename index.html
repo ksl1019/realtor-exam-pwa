@@ -541,14 +541,11 @@
       "session29.js"
     ];
 
-    const TEXTBOOK_FILES = [
-      "textbook01.js"
-    ];
+    const TEXTBOOK_FILES = [];
 
     window.SESSIONS = window.SESSIONS || [];
     window.TEXTBOOKS = window.TEXTBOOKS || [];
 
-    // 기본서 내장 데이터 (외부 파일이 없거나 로드 실패해도 기본서 탭이 바로 뜨도록 보장)
     window.TEXTBOOKS.push({
       id: "builtin-textbook",
       title: "공인중개사 1차 단권 기본서 (학개론·민법)",
@@ -568,7 +565,7 @@
                   items: [
                     { type: "틀린 지문 정정", text: "나지(裸地)는 토지 위에 건물이나 그 밖의 정착물이 없고 지상권 등 토지의 사용·수익을 제한하는 사법상의 권리가 설정되어 있지 아니한 토지를 말한다. 건부지(建附地) 중 건축법상 건폐율·용적률 등의 제한으로 건물을 짓지 않고 비워 둔 토지는 '공지(空地)'이며, 건부지가격은 건부감가에 의해 나지가격보다 낮게 평가되는 것이 일반적이다." },
                     { type: "기출 옳은 지문", text: "필지(筆地)는 하나의 지번이 부여되는 토지등록의 단위이고, 획지(劃地)는 인위적·자연적·행정적 조건에 따라 다른 토지와 구별되는 가격수준이 비슷한 일단의 토지이다. 용도상 불가분의 관계에 있는 2필지 이상의 토지는 '일단지(一團地)'이고, 도로에 직접 연결되지 못한 한 필지의 토지는 '맹지(盲地)'이다." },
-                    { type: "연관 개념·실전 보충", text: "부지(敷地)는 건축물이나 하천·도로·철도·공원 등의 바닥토지를 지칭하는 포괄적 용어이며, 택지(宅地)는 주거·상업·공업용지로 이용되고 있거나 조성된 토지이다. 고압송전선로 아래 토지는 '선하지(線下地)'이며, 초과토지는 현존 건물에 필요한 적정면적 이상 토지 중 분리 사용이 가능한 부분을 말한다." }
+                    { type: "연관 개념·실전 보충", text: "부지(敷地)는 건축물이나 하천·도로·철도·공원 등의 바닥토지를 지칭하는 포괄적 용어이며, 택지(宅地)는 주거·상업·공업용지 등으로 이용되고 있거나 조성된 토지이다. 고압송전선로 아래 토지는 '선하지(線下地)'이며, 초과토지는 현존 건물에 필요한 적정면적 이상 토지 중 분리 사용이 가능한 부분을 말한다." }
                   ]
                 },
                 {
@@ -576,7 +573,7 @@
                   related: ["후보지", "이행지", "빈지", "포락지", "법지", "소지", "부증성", "부동성", "개별성", "영속성"],
                   items: [
                     { type: "기출 옳은 지문", text: "후보지(候補地)는 택지·농지·산지(임지)지역 상호 간에 다른 지역으로 전환되고 있는 일단의 토지이고, 이행지(移行地)는 세부 용도지역 상호 간에 용도가 전환되고 있는 일단의 토지이다." },
-                    { type: "틀린 지문 정정", text: "소유권이 인정되지 않는 바다와 육지 사이의 해변 토지는 '빈지(濱地)'이고, 지적공부에 등록된 토지가 침식되어 수면 밑으로 잠긴 토지는 '포락지(浦落地)'이다. 소유권은 인정되나 이용실익이 적거나 불가능한 경사지 등은 '법지(法地)', 개발 전 자연 상태 토지는 '소지(素地)'이다." },
+                    { type: "틀린 지문 정정", text: "소유권이 인정되지 않는 바다와 육지 사이의 해변 토지는 '빈지(濱地)'이고, 지적공부에 등록된 토지가 물에 침식되어 수면 밑으로 잠긴 토지는 '포락지(浦落地)'이다. 소유권은 인정되나 이용실익이 적거나 불가능한 경사지 등은 '법지(法地)', 개발 전 자연 상태 토지는 '소지(素地)'이다." },
                     { type: "틀린 지문 정정", text: "부증성으로 물리적 공급이 불가하므로 토지이용 집약화·지가/지대 발생·소유욕구 증대·입지경쟁이 나타난다. 부동성은 국지성·임장활동·외부효과 근거가 되고, 개별성은 일물일가 배제·개별요인 비교 근거가 되며, 영속성은 물리적 감가상각 배제·장기투자 근거가 된다. 용도의 다양성은 최유효이용과 경제적 공급의 근거이다." }
                   ]
                 }
@@ -710,8 +707,7 @@
           ]
         }
       ]
-    }
-  ]);
+    });
 
     (function registerPWA() {
       const manifest = {
@@ -957,7 +953,7 @@
       const ses = getCurrentSession();
       const main = document.getElementById("appMain");
       if (!ses) {
-        main.innerHTML = `<div class="empty-state">등록된 회차 파일(예: session36.js)이 없습니다.</div>`;
+        main.innerHTML = `<div class="empty-state">등록된 회차 파일(예: session36.js)이 없습니다.<br/>상단 <strong>기본서</strong> 탭을 눌러 단권 기본서를 바로 볼 수 있습니다.</div>`;
         return;
       }
       document.getElementById("sessionToggleBtn").textContent = `${ses.title} ▾`;
@@ -1111,26 +1107,38 @@
 
     function loadScriptSequential(src) {
       return new Promise(resolve => {
+        let done = false;
+        const finish = () => {
+          if (!done) {
+            done = true;
+            resolve();
+          }
+        };
+        const timer = setTimeout(finish, 1500);
         const s = document.createElement("script");
         s.src = src + "?v=" + Date.now();
-        s.onload = resolve;
-        s.onerror = resolve;
+        s.onload = () => { clearTimeout(timer); finish(); };
+        s.onerror = () => { clearTimeout(timer); finish(); };
         document.body.appendChild(s);
       });
     }
 
     (async function initApp() {
-      for (const file of SESSION_FILES) {
-        await loadScriptSequential(file);
+      try {
+        for (const file of SESSION_FILES) {
+          await loadScriptSequential(file);
+        }
+        for (const tbFile of TEXTBOOK_FILES) {
+          await loadScriptSequential(tbFile);
+        }
+      } finally {
+        window.SESSIONS = Array.isArray(window.SESSIONS) ? window.SESSIONS : [];
+        window.SESSIONS.sort((a, b) => Number(b.id) - Number(a.id));
+        if (window.SESSIONS.length > 0 && !state.sessionId) {
+          state.sessionId = window.SESSIONS[0].id;
+        }
+        render();
       }
-      for (const tbFile of TEXTBOOK_FILES) {
-        await loadScriptSequential(tbFile);
-      }
-      window.SESSIONS.sort((a, b) => Number(b.id) - Number(a.id));
-      if (window.SESSIONS.length > 0) {
-        state.sessionId = window.SESSIONS[0].id;
-      }
-      render();
     })();
   </script>
 </body>
