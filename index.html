@@ -95,7 +95,7 @@
     }
     .mode-tabs {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 6px;
       background: var(--bg);
       padding: 4px;
@@ -105,7 +105,7 @@
       border: none;
       background: transparent;
       color: var(--sub);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 700;
       padding: 8px 4px;
       border-radius: 9px;
@@ -318,6 +318,43 @@
       white-space: pre-line;
       word-break: keep-all;
     }
+    .tb-unit-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 0 0 6px;
+    }
+    .tb-summary {
+      font-size: 13.5px;
+      color: var(--sub);
+      margin: 0 0 12px;
+    }
+    .tb-point {
+      border-top: 1px dashed var(--border);
+      padding-top: 12px;
+      margin-top: 12px;
+    }
+    .tb-point-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .tb-list {
+      margin: 4px 0 8px 0;
+      padding-left: 18px;
+      font-size: 13.5px;
+    }
+    .tb-list li { margin-bottom: 4px; }
+    .tb-tag-ok { color: var(--ok); font-weight: 700; }
+    .tb-tag-fix { color: var(--err); font-weight: 700; }
+    .tb-rel {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 12.5px;
+      color: var(--sub);
+    }
     .single-nav {
       display: flex;
       justify-content: space-between;
@@ -412,12 +449,13 @@
         <button class="mode-tab active" data-mode="solve">문제풀이</button>
         <button class="mode-tab" data-mode="study">문제해설</button>
         <button class="mode-tab" data-mode="wrong">오답노트 (<span id="wrongCount">0</span>)</button>
+        <button class="mode-tab" data-mode="textbook">기본서</button>
       </div>
 
       <div class="filter-row">
-        <button class="chip active" data-subj="all">전체 (80)</button>
-        <button class="chip" data-subj="intro">부동산학개론 (1~40)</button>
-        <button class="chip" data-subj="civil">민법 및 민사특별법 (41~80)</button>
+        <button class="chip active" data-subj="all">전체</button>
+        <button class="chip" data-subj="intro">부동산학개론</button>
+        <button class="chip" data-subj="civil">민법 및 민사특별법</button>
         <button class="chip" id="resetProgressBtn">풀이초기화</button>
       </div>
     </div>
@@ -450,9 +488,13 @@
       "session29.js"
     ];
 
-    window.SESSIONS = window.SESSIONS || [];
+    const TEXTBOOK_FILES = [
+      "textbook01.js"
+    ];
 
-    // PWA Manifest & Service Worker 동적 등록
+    window.SESSIONS = window.SESSIONS || [];
+    window.TEXTBOOKS = window.TEXTBOOKS || [];
+
     (function registerPWA() {
       const manifest = {
         name: "공인중개사 1차 기출학습",
@@ -488,7 +530,7 @@
 
     const state = {
       sessionId: "",
-      mode: "solve",       // solve | study | wrong
+      mode: "solve",       // solve | study | wrong | textbook
       subj: "all",         // all | intro | civil
       view: "scroll",      // scroll | single
       singleIdx: 0,
@@ -550,6 +592,42 @@
       });
     }
 
+    function renderTextbook() {
+      const main = document.getElementById("appMain");
+      const tb = window.TEXTBOOKS[0];
+      if (!tb) {
+        main.innerHTML = `<div class="empty-state">기본서 데이터(textbook01.js)를 불러오는 중입니다.</div>`;
+        return;
+      }
+      const chapters = tb.chapters.filter(ch => state.subj === "all" || ch.subj === state.subj);
+      let html = `
+        <div class="status-bar">
+          <span><strong>${tb.title}</strong> · ${chapters.length}개 단원</span>
+          <span>기출 옳은 지문 + 틀린 지문 정정 + 연관 개념</span>
+        </div>
+      `;
+      html += chapters.map(ch => `
+        <section class="q-card">
+          <div class="q-meta">
+            <span class="q-badge">${ch.subj === "intro" ? "1과목 부동산학개론" : "2과목 민법 및 민사특별법"}</span>
+          </div>
+          <h3 class="tb-unit-title">${ch.unit}</h3>
+          <p class="tb-summary">${ch.summary}</p>
+          ${ch.points.map(pt => `
+            <div class="tb-point">
+              <div class="tb-point-title">■ ${pt.title}</div>
+              <ul class="tb-list">
+                ${(pt.correct || []).map(c => `<li><span class="tb-tag-ok">[옳은 지문]</span> ${c}</li>`).join("")}
+                ${(pt.fixed || []).map(f => `<li><span class="tb-tag-fix">[정정 지문]</span> ${f}</li>`).join("")}
+              </ul>
+              ${pt.related ? `<div class="tb-rel"><strong>연관 개념·보충:</strong> ${pt.related}</div>` : ""}
+            </div>
+          `).join("")}
+        </section>
+      `).join("");
+      main.innerHTML = html;
+    }
+
     function renderQuestionCard(item, sesId) {
       const key = `${sesId}-${item.no}`;
       const userAns = state.answers[key];
@@ -606,14 +684,20 @@
     function render() {
       applyTheme();
       const ses = getCurrentSession();
+      if (ses) {
+        document.getElementById("sessionToggleBtn").textContent = `${ses.title} ▾`;
+        updateWrongCount();
+        renderSessions();
+      }
+      if (state.mode === "textbook") {
+        renderTextbook();
+        return;
+      }
       const main = document.getElementById("appMain");
       if (!ses) {
         main.innerHTML = `<div class="empty-state">등록된 회차 파일(예: session36.js)이 없습니다.</div>`;
         return;
       }
-      document.getElementById("sessionToggleBtn").textContent = `${ses.title} ▾`;
-      updateWrongCount();
-      renderSessions();
 
       const list = getFilteredQuestions();
       const solvedCnt = ses.questions.filter(q => state.answers[`${ses.id}-${q.no}`]).length;
@@ -739,7 +823,7 @@
           const no = Number(b.dataset.jno);
           document.getElementById("jumpModal").classList.remove("open");
           state.subj = "all";
-          if (state.mode === "wrong") state.mode = "solve";
+          if (state.mode === "wrong" || state.mode === "textbook") state.mode = "solve";
           document.querySelectorAll(".chip[data-subj]").forEach(c => c.classList.toggle("active", c.dataset.subj === "all"));
           document.querySelectorAll(".mode-tab").forEach(t => t.classList.toggle("active", t.dataset.mode === state.mode));
           if (state.view === "single") {
@@ -772,6 +856,9 @@
     (async function initSessions() {
       for (const file of SESSION_FILES) {
         await loadScriptSequential(file);
+      }
+      for (const tbFile of TEXTBOOK_FILES) {
+        await loadScriptSequential(tbFile);
       }
       window.SESSIONS.sort((a, b) => Number(b.id) - Number(a.id));
       if (window.SESSIONS.length > 0) {
