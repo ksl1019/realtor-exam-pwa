@@ -144,8 +144,10 @@
     .session-drawer {
       display: none;
       max-width: 760px;
+      max-height: 185px;
+      overflow-y: auto;
       margin: 6px auto 0;
-      padding: 10px;
+      padding: 8px;
       background: var(--bg);
       border-radius: 12px;
       border: 1px solid var(--border);
@@ -153,7 +155,7 @@
     .session-drawer.open { display: block; }
     .session-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 6px;
     }
     .session-item {
@@ -436,7 +438,7 @@
   </div>
 
   <script>
-    // ★ 새 회차 JS 파일을 추가할 때는 아래 배열에 파일명만 추가하면 됩니다.
+    // ★ 새 회차 JS 파일을 추가할 때는 아래 배열에 파일명만 추가하세요.
     const SESSION_FILES = [
       "session36.js",
       "session35.js",
@@ -757,17 +759,26 @@
       document.getElementById("jumpModal").classList.remove("open");
     };
 
-    // 등록된 회차 스크립트 순차 로드
-    Promise.all(SESSION_FILES.map(src => new Promise(resolve => {
-      const s = document.createElement("script");
-      s.src = src + "?v=" + Date.now();
-      s.onload = resolve;
-      s.onerror = resolve;
-      document.body.appendChild(s);
-    }))).then(() => {
-      if (window.SESSIONS.length > 0) state.sessionId = window.SESSIONS[0].id;
+    function loadScriptSequential(src) {
+      return new Promise(resolve => {
+        const s = document.createElement("script");
+        s.src = src + "?v=" + Date.now();
+        s.onload = resolve;
+        s.onerror = resolve;
+        document.body.appendChild(s);
+      });
+    }
+
+    (async function initSessions() {
+      for (const file of SESSION_FILES) {
+        await loadScriptSequential(file);
+      }
+      window.SESSIONS.sort((a, b) => Number(b.id) - Number(a.id));
+      if (window.SESSIONS.length > 0) {
+        state.sessionId = window.SESSIONS[0].id;
+      }
       render();
-    });
+    })();
   </script>
 </body>
 </html>
